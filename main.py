@@ -3,11 +3,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from api import azure
 from pydantic import BaseModel
 
-
-class Item(BaseModel):
-    name: str
-
-
 app = FastAPI(debug=True)
 
 origins = [
@@ -26,12 +21,6 @@ app.add_middleware(
 )
 
 
-def read_imagefile(file):
-    print(BytesIO(file))
-    image = BytesIO(file)
-    return image
-
-
 @app.get("/")
 def read_root():
     return {"Hello": "World"}
@@ -47,3 +36,9 @@ async def describe(image: UploadFile = File(...)):
 async def read(image: UploadFile = File(...)):
     temp_file = image.file
     return azure.read_image(temp_file.read())
+
+
+@app.post("/command")
+async def command(audio: UploadFile = File(...)):
+    temp_file = audio.file
+    return azure.get_command(temp_file.read())
