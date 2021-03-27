@@ -26,18 +26,24 @@ app.add_middleware(
 )
 
 
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
-
-
 def read_imagefile(file):
     print(BytesIO(file))
     image = BytesIO(file)
     return image
 
 
+@app.get("/")
+def read_root():
+    return {"Hello": "World"}
+
+
 @app.post("/describe")
 async def describe(image: UploadFile = File(...)):
     temp_file = image.file
     return azure.describe_image(temp_file.read())
+
+
+@app.post("/read")
+async def read(image: UploadFile = File(...)):
+    temp_file = image.file
+    return azure.read_image(temp_file.read())
