@@ -5,7 +5,7 @@ import re
 
 from dotenv import load_dotenv
 from pathlib import Path
-
+from pydub import AudioSegment
 
 _env_path = Path(".") / ".env"
 load_dotenv(dotenv_path=_env_path)
@@ -60,7 +60,14 @@ def read_image(binary_image):
     return {"texts": texts}
 
 
-def get_command(audio_file):
+def convert_to_wav(audio_file):
+    sound = AudioSegment.from_file(audio_file, "m4a")
+    sound.export(audio_file, format="wav")
+
+
+def get_command(audio_file, ends_with_m4a):
+    if ends_with_m4a:
+        convert_to_wav(audio_file)
     params = {"language": "en-IN"}
     headers = {
         "Content-Type": "audio/wav",
@@ -74,5 +81,8 @@ def get_command(audio_file):
         params=params,
         headers=headers,
     )
-    voice_data = response.json()
-    return re.sub(r"[^\w\s]", "", voice_data["DisplayText"]).lower()
+    try:
+        voice_data = response.json()
+        return re.sub(r"[^\w\s]", "", voice_data["DisplayText"]).lower()
+    except:
+        return {response.status_code: response.reason}

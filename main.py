@@ -1,4 +1,4 @@
-from fastapi import FastAPI, UploadFile, File, Request
+from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from api import azure
 from pydantic import BaseModel
@@ -41,4 +41,5 @@ async def read(image: UploadFile = File(...)):
 @app.post("/command")
 async def command(audio: UploadFile = File(...)):
     temp_file = audio.file
-    return azure.get_command(temp_file.read())
+    ends_with_m4a = audio.filename.endswith(".m4a")
+    return azure.get_command(temp_file, ends_with_m4a)
