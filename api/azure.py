@@ -83,6 +83,8 @@ def get_command(audio_file, ends_with_m4a):
     )
     try:
         voice_data = response.json()
-        return re.sub(r"[^\w\s]", "", voice_data["DisplayText"]).lower()
+        print(voice_data)
+        return {"command": re.sub(r"[^\w\s]", "", voice_data["DisplayText"]).lower()}
     except:
+        print(response.status_code, response.reason)
         return {response.status_code: response.reason}
