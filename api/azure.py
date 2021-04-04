@@ -57,6 +57,7 @@ def read_image(binary_image):
     texts = []
     for line in read_response["analyzeResult"]["readResults"][0]["lines"]:
         texts.append(line["text"])
+    print(texts)
     return {"texts": texts}
 
 
@@ -83,7 +84,7 @@ def get_command(audio_file, ends_with_m4a):
     )
     try:
         voice_data = response.json()
-        print(voice_data)
+        print(re.sub(r"[^\w\s]", "", voice_data["DisplayText"]).lower())
         return {"command": re.sub(r"[^\w\s]", "", voice_data["DisplayText"]).lower()}
     except:
         print(response.status_code, response.reason)

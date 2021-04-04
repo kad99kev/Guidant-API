@@ -1,4 +1,8 @@
-requests==2.25.1
 pydantic==1.8.1
+requests==2.25.1
+pydub==0.25.1
 fastapi==0.63.0
-python-dotenv==0.15.0
+python-dotenv==0.17.0
+gunicorn==20.1.0
+uvloop==0.15.2
+httptools==0.1.1
