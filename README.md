@@ -25,7 +25,11 @@ ngrok http 8000
 ### You can also run it with Docker
 
 1. Execute Docker Build
-```docker build -t <tag> PATH```
+```
+docker build -t <tag> PATH
+```
 
 2. Execute Docker Run
-```docker run --name <name> --publish <outside_port>:80 <tag>```
+```
+docker run --name <name> --publish <outside_port>:80 <tag>
+```
