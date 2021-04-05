@@ -1,4 +1,9 @@
-# How to run?
+# Guidant 
+
+Main repository can be found here: 
+
+
+## How to run?
 
 1. Download the dependencies
 ```
